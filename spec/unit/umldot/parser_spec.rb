@@ -2,6 +2,32 @@ require "spec_helper"
 
 describe UCD::Parser do
 
+  describe "#name" do
+    subject { described_class.new.name }
+
+    it "should parse correctly" do
+      expect { subject.parse("foo") }.not_to raise_error
+      expect { subject.parse("Foo") }.not_to raise_error
+      expect { subject.parse("Foo-12_34") }.not_to raise_error
+    end
+  end
+
+  describe "#class_name" do
+    subject { described_class.new.class_name }
+
+    it "should parse correctly" do
+      expect { subject.parse("Foo") }.not_to raise_error
+      expect { subject.parse("Generic(Foo)") }.not_to raise_error
+      expect { subject.parse("Scoped::Foo") }.not_to raise_error
+      expect { subject.parse("Scoped.Foo") }.not_to raise_error
+      expect { subject.parse("Generic(Scoped::Foo)") }.not_to raise_error
+      expect { subject.parse("Generic(Scoped.Foo)") }.not_to raise_error
+      expect { subject.parse("Scoped::Generic(Scoped::Foo)") }.not_to raise_error
+      expect { subject.parse("Scoped.Generic(Scoped.Foo)") }.not_to raise_error
+      expect { subject.parse("Scoped::Generic(Scoped.Foo)") }.not_to raise_error
+    end
+  end
+
   describe '#field_definition' do
     subject { described_class.new.field_definition }
 

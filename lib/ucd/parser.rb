@@ -34,7 +34,10 @@ module UCD
     rule(:whitespace)  { (match("\s") | match("\n") | str(";")).repeat(1) }
     rule(:whitespace?) { whitespace.maybe }
 
-    rule(:name) { match["[:alnum:]_-"].repeat(1) } # TODO: Any other needed?
+    rule(:name) { match['a-zA-Z0-9_-'].repeat(1) }
+
+    rule(:class_name_chars) { match('(?:[a-zA-Z0-9_-]|\:|\.)').repeat(1) }
+    rule(:class_name) { class_name_chars >> (str("(") >> class_name_chars >> str(")")).maybe }
 
     # -- Field/Method
 
@@ -44,7 +47,7 @@ module UCD
     rule(:member_access) { (kw_access_modifier.as(:access) >> spaces).maybe }
 
     rule(:method_abstract) { (kw_abstract.as(:abstract) >> spaces).maybe }
-    rule(:member_type)     { (spaces >> str(":") >> spaces >> name.as(:type)).maybe }
+    rule(:member_type)     { (spaces >> str(":") >> spaces >> class_name.as(:type)).maybe }
 
     rule(:field_keyword)     { kw_field >> spaces }
     rule(:field_name)        { name.as(:name) }
@@ -65,7 +68,7 @@ module UCD
     rule(:kw_class_relationship_type) { kw_generalizes | kw_realizes }
 
     rule(:class_relationship_type)       { kw_class_relationship_type.as(:type) >> spaces }
-    rule(:class_relationship_definition) { (class_relationship_type >> name.as(:name)).as(:class_relationship) }
+    rule(:class_relationship_definition) { (class_relationship_type >> class_name.as(:name)).as(:class_relationship) }
 
     # -- Relationship
 
@@ -76,7 +79,7 @@ module UCD
     rule(:relationship_type)           { kw_relationship_type.as(:type) >> spaces }
     rule(:relationship_from)           { (spaces >> (name.as(:name) | str("*").repeat(1)).as(:from)).maybe }
     rule(:relationship_to)             { (spaces >> (name.as(:name) | str("*").repeat(1)).as(:to)).maybe }
-    rule(:relationship_definition)     { (relationship_directionality >> relationship_type >> name.as(:name) >> relationship_from >> relationship_to).as(:relationship) }
+    rule(:relationship_definition)     { (relationship_directionality >> relationship_type >> class_name.as(:name) >> relationship_from >> relationship_to).as(:relationship) }
 
     # -- Class
 
@@ -89,7 +92,7 @@ module UCD
     rule(:class_body)              { spaces? >> str("{") >> whitespace? >> class_inner_definition.repeat.as(:members) >> str("}") }
     rule(:class_body?)             { class_body.maybe }
 
-    rule(:class_definition) { class_modifier >> class_keyword >> name.as(:name) >> class_body? }
+    rule(:class_definition) { class_modifier >> class_keyword >> class_name.as(:name) >> class_body? }
 
     # -- Document
 
