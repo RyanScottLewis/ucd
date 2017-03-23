@@ -14,6 +14,9 @@ different formats.
 ```sh
 # Convert composite.ucd to composite.png
 $ ucd --type png --output . composite.ucd
+
+# Display detailed help message
+$ ucd --help
 ```
 
 ## Language
@@ -21,6 +24,26 @@ $ ucd --type png --output . composite.ucd
 ### Examples
 
 See the examples directory for UCD files and their generated DOT and PNG files.
+
+```ruby
+abstract class Component {
+  method operation
+}
+
+class Leaf {
+  generalizes Component
+}
+
+class Composite {
+  protected field children : Component
+  method addChild(child : Component) : Component
+  method removeChild(child : Component) : Component
+  method getChild(index : Integer) : Component
+
+  generalizes Component
+  aggregation Component *
+}
+```
 
 ### Syntax
 
