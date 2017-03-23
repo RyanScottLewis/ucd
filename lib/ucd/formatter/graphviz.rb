@@ -31,6 +31,8 @@ module UCD
 
         @node_attributes = Attributes.new
         @node_attributes["shape"] = "plain"
+
+        @type = :dot
       end
 
       attr_reader :graph_attributes
@@ -40,21 +42,13 @@ module UCD
       def type=(value)
         super
 
-        @type = VALID_TYPES.include?(@type) ? @type : nil
+        @type = :dot unless VALID_TYPES.include?(@type)
       end
 
       def format(node)
         dot = super.lines.map(&:rstrip).join("\n")
-        data = generate_from_dot(dot)
 
-        if @output_path.nil?
-          puts data
-        else
-          self.type ||= @output_path.extname.gsub(/^\./, "")
-          output_path = @output_path.extname.empty? ? Pathname.new("#{@output_path}.#{@type}") : @output_path
-
-          output_path.open("w+") { |file| file.write(data) }
-        end
+        generate_from_dot(dot)
       end
 
       def format_field(node)
@@ -181,7 +175,7 @@ HEREDOC
       protected
 
       def generate_from_dot(dot)
-        return dot if @type.nil?
+        return dot if @type == :dot
 
         Open3.popen3("dot -T#{type}") do |stdin, stdout, stderr, wait|
           stdin.puts(dot)
