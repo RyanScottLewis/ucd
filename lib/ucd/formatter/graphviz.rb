@@ -76,18 +76,20 @@ module UCD
       end
 
       def format_relationship(node)
-        arrow = "diamond" if "composition"
-        arrow = "odiamond" if "aggregation"
-        dir = "back" if %w[aggregation composition].include?(node.type)
+        arrow     = "diamond" if node.type == "composition"
+        arrow     = "odiamond" if node.type == "aggregation"
+        dir       = "back" if %w[aggregation composition].include?(node.type)
         arrow_key = dir == "back" ? "arrowtail" : "arrowhead"
+        from_key  = dir == "back" ? "taillabel" : "headlabel"
+        to_key    = dir == "back" ? "headlabel" : "taillabel"
 
         attributes = Attributes.new
 
-        attributes["style"] = "dashed" if node.type == "dependency"
-        attributes["dir"] = dir if dir
+        attributes["style"]   = "dashed" if node.type == "dependency"
+        attributes["dir"]     = dir if dir
         attributes[arrow_key] = arrow
-        attributes["headlabel"] = node.from if node.from
-        attributes["taillabel"] = node.to if node.to
+        attributes[from_key]  = node.from if node.from
+        attributes[to_key]    = node.to if node.to
 
         graph_parent_name = generate_graph_name(node.parent.name)
         graph_node_name = generate_graph_name(node.name)
