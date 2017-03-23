@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby -W0
+
+require "ucd/interface/command_line"
+
+UCD::Interface::CommandLine.run

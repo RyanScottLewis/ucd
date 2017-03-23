@@ -1,0 +1,17 @@
+abstract class Component {
+  method operation
+}
+
+class Leaf {
+  generalizes Component
+}
+
+class Composite {
+  protected field children : Component
+  method addChild(child : Component) : Component
+  method removeChild(child : Component) : Component
+  method getChild(index : Integer) : Component
+
+  generalizes Component
+  aggregation Component *
+}

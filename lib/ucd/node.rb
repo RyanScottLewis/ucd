@@ -1,0 +1,6 @@
+require "ucd/node/field"
+require "ucd/node/method"
+require "ucd/node/relationship"
+require "ucd/node/class_relationship"
+require "ucd/node/class_node"
+require "ucd/node/document"
