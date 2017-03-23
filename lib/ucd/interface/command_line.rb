@@ -13,32 +13,51 @@ module UCD
 
       def initialize(attributes={})
         @formatter = Formatter::Graphviz.new
-        @verbose = false
+        @verbose   = false
         setup_parser
 
         super
       end
 
       def output_path=(value)
-        @output_path = Pathname.new(value.to_s)
+        @output_path = value.is_a?(Pathname) ? value : Pathname.new(value.to_s) unless value.nil?
       end
 
       def paths=(values)
         @paths = values.to_a.map { |path| Pathname.new(path) }
       end
 
+      def formatter=(value)
+        value = value.to_s.strip.downcase.to_sym
+        value = Formatter.find_by_name(value)
+        raise Error, "Formatter not found: #{value}" if value.nil?
+
+        @formatter = value
+      end
+
       def run
         @option_parser.parse!
         self.paths = ARGV
+        @formatter.type = @type
+
+        raise Error, "Output path must be a directory if multiple input files are given" if @output_path && @output_path.file? && @paths.length > 1
 
         @paths.each do |input_path|
           raise FileError, "File does not exist: #{input_path}" unless input_path.exist?
 
-          @formatter.output_path = @output_path.directory? ? @output_path.join(input_path.basename(".*")) : @output_path if @output_path
-          data = input_path.read
+          data     = input_path.read
           document = Parser.parse(data)
+          result   = @formatter.format(document)
 
-          result = @formatter.format(document)
+          if @output_path
+            output_path = @output_path
+            output_path = output_path.join(input_path.basename(".*").to_s + ".#{@formatter.type}") if output_path.directory?
+
+            output_path.open("w+") { |file| file.write(result) }
+          else
+            puts result
+          end
+
         end
       end
 
@@ -82,14 +101,8 @@ module UCD
 
           BANNER
 
-          parser.on("-f", "--formatter VALUE", "The output formatter (Default: '#{@formatter.name}')") do |value|
-            value = value.to_s.strip.downcase.to_sym
-            value = Formatter.find_by_name(value)
-            raise Error, "Formatter not found: #{value}" if value.nil?
-
-            @formatter = value
-          end
-          parser.on("-t", "--type VALUE", "The output format type") { |value| @formatter.type = value }
+          parser.on("-f", "--formatter VALUE", "The output formatter (Default: '#{@formatter.name}')") { |value| self.formatter = value }
+          parser.on("-t", "--type VALUE", "The output format type") { |value| @type = value }
           parser.on("-o", "--output VALUE", "The output path") { |value| self.output_path = value }
           parser.on("-h", "--help", "Prints this help") do
             puts parser
@@ -103,9 +116,7 @@ module UCD
 
                   The output can be directed to a path with #{text_bold_italic("--output")}, which can be a file or a directory.
                   If the output path is a directory, then the filename will be the same as the input filename,
-                  with it's file extension substituted with the #{text_bold_italic("--type")}.
-                  If the output path is a file when multiple input files are given, the current input file index is appended
-                  to the output filename.
+                    with it's file extension substituted with the #{text_bold_italic("--type")}.
 
                   #{text_underline("Examples")}
 

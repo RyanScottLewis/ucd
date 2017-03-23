@@ -32,12 +32,6 @@ module UCD
         self.class.name
       end
 
-      attr_reader :output_path
-
-      def output_path=(value)
-        @output_path = value.is_a?(Pathname) ? value : Pathname.new(value.to_s) unless value.nil?
-      end
-
       attr_reader :type
 
       def type=(value)
