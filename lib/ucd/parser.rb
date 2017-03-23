@@ -77,8 +77,8 @@ module UCD
 
     rule(:relationship_directionality) { (kw_relationship_directionality.as(:directionality) >> spaces).maybe }
     rule(:relationship_type)           { kw_relationship_type.as(:type) >> spaces }
-    rule(:relationship_from)           { (spaces >> (name.as(:name) | str("*").repeat(1)).as(:from)).maybe }
-    rule(:relationship_to)             { (spaces >> (name.as(:name) | str("*").repeat(1)).as(:to)).maybe }
+    rule(:relationship_from)           { (spaces >> (name | str("*").repeat(1)).as(:from)).maybe }
+    rule(:relationship_to)             { (spaces >> (name | str("*").repeat(1)).as(:to)).maybe }
     rule(:relationship_definition)     { (relationship_directionality >> relationship_type >> class_name.as(:name) >> relationship_from >> relationship_to).as(:relationship) }
 
     # -- Class
