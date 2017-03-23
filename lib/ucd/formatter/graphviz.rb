@@ -89,7 +89,10 @@ module UCD
         attributes["headlabel"] = node.from if node.from
         attributes["taillabel"] = node.to if node.to
 
-        %Q{Class#{node.parent.name} -> Class#{node.name} [#{attributes}]}
+        graph_parent_name = generate_graph_name(node.parent.name)
+        graph_node_name = generate_graph_name(node.name)
+
+        %Q{Class#{graph_parent_name} -> Class#{graph_node_name} [#{attributes}]}
       end
 
       def format_class_relationship(node)
@@ -98,7 +101,10 @@ module UCD
         attributes["arrowhead"] = "onormal"
         attributes["style"] = "dashed" if node.type == "realizes"
 
-        %Q{Class#{node.parent.name} -> Class#{node.name} [#{attributes}]}
+        graph_parent_name = generate_graph_name(node.parent.name)
+        graph_node_name = generate_graph_name(node.name)
+
+        %Q{Class#{graph_parent_name} -> Class#{graph_node_name} [#{attributes}]}
       end
 
       def format_class(node)
@@ -144,8 +150,10 @@ HEREDOC
 
       def format_document(node)
         classes = node.classes.map do |node|
+          graph_node_name = generate_graph_name(node.name)
+
           <<-HEREDOC
-Class#{node.name} [label=<
+Class#{graph_node_name} [label=<
   #{format_class(node)}
 >]
           HEREDOC
@@ -183,6 +191,10 @@ HEREDOC
           # unless (err = stderr.read).empty? then raise err end
           stdout.read
         end
+      end
+
+      def generate_graph_name(name)
+        name.gsub(/[^0-9a-zA-Z]/i, '')
       end
 
     end

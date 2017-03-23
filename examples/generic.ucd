@@ -1,0 +1,7 @@
+abstract class Asset(T) {
+  field value : T
+}
+
+class Texture {
+  generalizes Asset(T)
+}
