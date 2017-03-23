@@ -9,14 +9,14 @@ different formats.
 
 ### RubyGems: `gem install ucd`
 
-## UCD Executable
+## Executable
 
 ```sh
-# Convert composite.ucd to composite.dot, then to composite.png
-$ ucd --format png composite.ucd
+# Convert composite.ucd to composite.png
+$ ucd --type png --output . composite.ucd
 ```
 
-## UCD Language
+## Language
 
 ### Examples
 
