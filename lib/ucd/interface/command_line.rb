@@ -23,10 +23,6 @@ module UCD
         @output_path = Pathname.new(value.to_s)
       end
 
-      def verbose=(value)
-        @verbose = !!value
-      end
-
       def paths=(values)
         @paths = values.to_a.map { |path| Pathname.new(path) }
       end
@@ -95,7 +91,6 @@ module UCD
           end
           parser.on("-t", "--type VALUE", "The output format type") { |value| @formatter.type = value }
           parser.on("-o", "--output VALUE", "The output path") { |value| self.output_path = value }
-          parser.on("-v", "--verbose", "Run verbosely") { |value| self.verbose = value }
           parser.on("-h", "--help", "Prints this help") do
             puts parser
             puts <<~HELP

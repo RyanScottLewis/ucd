@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "ucd/version"
+require "ucd"
 
 Gem::Specification.new do |spec|
   spec.name          = "ucd"
-  spec.version       = UCD::VERSION
+  spec.version       = UCD::VERSION.to_s
   spec.authors       = ["Ryan Scott Lewis"]
   spec.email         = ["ryanscottlewis@gmail.com"]
 
@@ -26,4 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.13"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "version", "~> 1.0.0"
 end
