@@ -25,6 +25,10 @@ $ ucd --help
 
 See the examples directory for UCD files and their generated DOT and PNG files.
 
+#### Component Pattern
+
+`component.ucd`
+
 ```ruby
 abstract class Component {
   method operation
@@ -42,6 +46,81 @@ class Composite {
 
   generalizes Component
   aggregation Component *
+}
+```
+
+`component.png`
+
+![Component Pattern](https://github.com/RyanScottLewis/ucd/raw/master/examples/composite.png)
+
+`component.dot`
+
+```dot
+digraph G {
+  graph [splines="ortho" rankdir="BT"]
+  edge [color="gray50"]
+  node [shape="plain"]
+
+  ClassComponent [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+      <TR>
+        <TD>«abstract»<BR/><I><B>Component</B></I></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+      <TR>
+        <TD>
+          <TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0">
+            <TR><TD ALIGN="LEFT">+ operation()</TD></TR>
+          </TABLE>
+        </TD>
+      </TR>
+    </TABLE>
+  >]
+
+  ClassLeaf [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+      <TR>
+        <TD><B>Leaf</B></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+    </TABLE>
+  >]
+
+  ClassComposite [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+      <TR>
+        <TD><B>Composite</B></TD>
+      </TR>
+      <TR>
+        <TD>
+          <TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0">
+            <TR><TD ALIGN="LEFT"># children : Component</TD></TR>
+          </TABLE>
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          <TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0">
+            <TR><TD ALIGN="LEFT">+ addChild(child : Component) : Component</TD></TR>
+            <TR><TD ALIGN="LEFT">+ removeChild(child : Component) : Component</TD></TR>
+            <TR><TD ALIGN="LEFT">+ getChild(index : Integer) : Component</TD></TR>
+          </TABLE>
+        </TD>
+      </TR>
+    </TABLE>
+  >]
+
+  ClassLeaf -> ClassComponent [arrowhead="onormal"]
+  ClassComposite -> ClassComponent [arrowhead="onormal"]
+
+  ClassComposite -> ClassComponent [dir="back" arrowtail="odiamond" headlabel="*"]
 }
 ```
 
