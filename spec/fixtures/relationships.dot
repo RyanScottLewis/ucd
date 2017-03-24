@@ -1,0 +1,111 @@
+digraph G {
+  graph [splines="ortho" rankdir="BT"]
+  edge [color="gray50"]
+  node [shape="plain"]
+
+  ClassNode [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+      <TR>
+        <TD><B>Node</B></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+    </TABLE>
+  >]
+
+  ClassA [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+      <TR>
+        <TD><B>A</B></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+    </TABLE>
+  >]
+
+  ClassB [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+      <TR>
+        <TD><B>B</B></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+    </TABLE>
+  >]
+
+  ClassC [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+      <TR>
+        <TD><B>C</B></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+    </TABLE>
+  >]
+
+  ClassD [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+      <TR>
+        <TD><B>D</B></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+    </TABLE>
+  >]
+
+  ClassE [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+      <TR>
+        <TD><B>E</B></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+    </TABLE>
+  >]
+
+  ClassF [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+      <TR>
+        <TD><B>F</B></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+    </TABLE>
+  >]
+
+  ClassNode -> ClassA [arrowhead="onormal" style="dashed"]
+  ClassNode -> ClassB [arrowhead="onormal"]
+
+  ClassNode -> ClassC [style="dashed"]
+  ClassNode -> ClassD
+  ClassNode -> ClassE [dir="back" arrowtail="odiamond"]
+  ClassNode -> ClassF [dir="back" arrowtail="diamond"]
+}

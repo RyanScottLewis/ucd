@@ -6,7 +6,7 @@ describe "Examples Integration Test" do
 
     subject { UCD::Parser.new }
     let(:input) { fixture_example("composite.ucd") }
-    let(:output) { fixture_example("composite.dot") }
+    let(:output) { fixture("composite.dot") }
 
     it "should parse the input correctly" do
       expect { subject.parse(input) }.not_to raise_error
@@ -25,7 +25,7 @@ describe "Examples Integration Test" do
 
     subject { UCD::Parser.new }
     let(:input) { fixture_example("generic.ucd") }
-    let(:output) { fixture_example("generic.dot") }
+    let(:output) { fixture("generic.dot") }
 
     it "should parse the input correctly" do
       expect { subject.parse(input) }.not_to raise_error

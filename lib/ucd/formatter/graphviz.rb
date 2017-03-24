@@ -22,22 +22,22 @@ module UCD
       def initialize(attributes={})
         super
 
-        @graph_attributes = Attributes.new
-        @graph_attributes["splines"] = "ortho"
-        @graph_attributes["rankdir"] = "BT"
+        @graph = Attributes.new
+        @graph["splines"] = "ortho"
+        @graph["rankdir"] = "BT"
 
-        @edge_attributes = Attributes.new
-        @edge_attributes["color"] = "gray50"
+        @edge = Attributes.new
+        @edge["color"] = "gray50"
 
-        @node_attributes = Attributes.new
-        @node_attributes["shape"] = "plain"
+        @node = Attributes.new
+        @node["shape"] = "plain"
 
         @type = :dot
       end
 
-      attr_reader :graph_attributes
-      attr_reader :edge_attributes
-      attr_reader :node_attributes
+      attr_reader :graph
+      attr_reader :edge
+      attr_reader :node
 
       def type=(value)
         super
@@ -83,21 +83,20 @@ module UCD
 
         attributes = Attributes.new
 
-        attributes["style"]   = "dashed" if node.type == "dependency"
-        attributes["dir"]     = dir if dir
+        attributes["style"]   = "dashed"  if node.type == "dependency"
+        attributes["dir"]     = dir       if dir
         attributes[from_key]  = node.from if node.from
-        attributes[to_key]    = node.to if node.to
+        attributes[to_key]    = node.to   if node.to
 
         if %w[aggregation composition].include?(node.type)
-          arrow     = "diamond" if node.type == "composition"
+          arrow     = "diamond"  if node.type == "composition"
           arrow     = "odiamond" if node.type == "aggregation"
           attributes[arrow_key] = arrow
         end
 
         graph_parent_name = generate_graph_name(node.parent.name)
-        graph_node_name = generate_graph_name(node.name)
-
-        graph_attributes = " [#{attributes}]" unless attributes.empty?
+        graph_node_name   = generate_graph_name(node.name)
+        graph_attributes  = " [#{attributes}]" unless attributes.empty?
 
         %Q{Class#{graph_parent_name} -> Class#{graph_node_name}#{graph_attributes}}
       end
@@ -117,6 +116,7 @@ module UCD
       def format_class(node)
         name = "<B>#{node.name}</B>"
         name = "«abstract»<BR/><I>#{name}</I>" if node.modifier == "abstract"
+        name = "«interface»<BR/>#{name}" if node.modifier == "interface"
 
         unless node.fields.empty?
           field_rows  = node.fields.map { |field| %Q{<TR><TD ALIGN="LEFT">#{format_field(field)}</TD></TR>}}
@@ -174,9 +174,9 @@ Class#{graph_node_name} [label=<
 
         <<-HEREDOC
 digraph G {
-  graph [#{@graph_attributes}]
-  edge [#{@edge_attributes}]
-  node [#{@node_attributes}]
+  graph [#{@graph}]
+  edge [#{@edge}]
+  node [#{@node}]
 
 #{classes}
 

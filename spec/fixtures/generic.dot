@@ -1,0 +1,41 @@
+digraph G {
+  graph [splines="ortho" rankdir="BT"]
+  edge [color="gray50"]
+  node [shape="plain"]
+
+  ClassAssetT [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+      <TR>
+        <TD>«abstract»<BR/><I><B>Asset(T)</B></I></TD>
+      </TR>
+      <TR>
+        <TD>
+          <TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0">
+            <TR><TD ALIGN="LEFT">+ value : T</TD></TR>
+          </TABLE>
+        </TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+    </TABLE>
+  >]
+
+  ClassTexture [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+      <TR>
+        <TD><B>Texture</B></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+      <TR>
+        <TD></TD>
+      </TR>
+    </TABLE>
+  >]
+
+  ClassTexture -> ClassAssetT [arrowhead="onormal"]
+
+
+}
