@@ -62,5 +62,5 @@ digraph G {
   ClassLeaf -> ClassComponent [arrowhead="onormal"]
   ClassComposite -> ClassComponent [arrowhead="onormal"]
 
-  ClassComposite -> ClassComponent [dir="back" arrowtail="odiamond" headlabel="*"]
+  ClassComposite -> ClassComponent [dir="back" taillabel="1" headlabel="*" arrowtail="odiamond"]
 }

@@ -1,0 +1,15 @@
+class Node {
+  realizes    A
+  generalizes B
+  dependency  C
+  association D
+  aggregation E
+  composition F
+}
+
+class A {}
+class B {}
+class C {}
+class D {}
+class E {}
+class F {}

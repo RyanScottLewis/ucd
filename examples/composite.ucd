@@ -13,5 +13,5 @@ class Composite {
   method getChild(index : Integer) : Component
 
   generalizes Component
-  aggregation Component *
+  aggregation Component 1 *
 }
