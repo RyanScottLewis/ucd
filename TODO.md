@@ -2,6 +2,7 @@
 
 * Atom, VIM, etc color schemes/snippets
 * Use https://github.com/glejeune/Ruby-Graphviz
+* "interface class" feels weird.
 * Pass multiple types:
   ucd examples/alias.ucd -o examples -t png,dot,svg
 * Reopen class:
